@@ -1,6 +1,6 @@
 package edu.project.englishstoriesbot.model;
 
-public class Poem {
+public class Poem implements Sendable {
 
     private String author;
     private String title;

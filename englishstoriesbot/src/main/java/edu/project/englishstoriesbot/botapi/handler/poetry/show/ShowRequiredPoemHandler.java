@@ -80,7 +80,7 @@ public class ShowRequiredPoemHandler implements MessageInputHandler, CallbackInp
         Poem poem = null;
         try {
             poem = poetryApiClient.getUserRequiredPoem(userData);
-            SendMessage replyMessage = messageService.getReplyMessage(chatId, poem.getContent());
+            SendMessage replyMessage = messageService.getReplyMessage(chatId, poem);
 
             if(replyMessage.getText().contains("status:404,reason:Not found")){
                 return messageService.getReplyMessage(chatId, poemNotFound);

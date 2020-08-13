@@ -14,5 +14,6 @@ public enum BotStates {
     ASK_FOR_POEM,
     SHOW_REQUIRED_POEM,
 
-
+    ASK_FOR_WORD,
+    SHOW_REQUIRED_WORD;
 }

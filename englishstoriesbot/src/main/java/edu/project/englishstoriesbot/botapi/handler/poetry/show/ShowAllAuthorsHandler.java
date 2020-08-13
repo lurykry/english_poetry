@@ -9,10 +9,12 @@ import edu.project.englishstoriesbot.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.List;
 
@@ -25,12 +27,15 @@ public class ShowAllAuthorsHandler implements MessageInputHandler {
     private final MessageService messageService;
     private final UserDataCache userDataCache;
     private final PoetryApiClient poetryApiClient;
+    private InlineKeyboardMarkup inlineKeyboardMarkup;
 
     @Autowired
-    public ShowAllAuthorsHandler(MessageService messageService, UserDataCache userDataCache, PoetryApiClient poetryApiClient) {
+    public ShowAllAuthorsHandler(MessageService messageService, UserDataCache userDataCache, PoetryApiClient poetryApiClient,
+                                 @Qualifier("ChooseAuthor") InlineKeyboardMarkup inlineKeyboardMarkup) {
         this.messageService = messageService;
         this.userDataCache = userDataCache;
         this.poetryApiClient = poetryApiClient;
+        this.inlineKeyboardMarkup = inlineKeyboardMarkup;
     }
 
     @Override
@@ -51,7 +56,9 @@ public class ShowAllAuthorsHandler implements MessageInputHandler {
 
         try {
             authors = poetryApiClient.getAllAuthors();
-            return messageService.getReplyMessage(chatId, authors);
+            SendMessage replyMessage = messageService.getReplyMessage(chatId, authors);;
+            replyMessage.setReplyMarkup(inlineKeyboardMarkup);
+            return replyMessage;
 
         } catch (FailedToLoadAuthorsException e) {
             LOGGER.error("error occurred in processMessage() ",e);

@@ -1,7 +1,7 @@
 package edu.project.englishstoriesbot.restapiclient.dictionary;
 
+import edu.project.englishstoriesbot.exeptions.TranslationNotFoundException;
 import edu.project.englishstoriesbot.httpclient.CustomHttpClient;
-import edu.project.englishstoriesbot.model.Author;
 import edu.project.englishstoriesbot.model.Expression;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.concurrent.ExecutionException;
@@ -24,12 +23,12 @@ public class DictionaryApiClient {
     @Value("${yandex.api.key}")
     private String yandexToken;
 
-    public Expression translateExpression(String expression) throws InterruptedException, IOException, ExecutionException, URISyntaxException {
-        String request = URL + yandexToken + "&lang=en-ru&text=" + expression;
+    public Expression translateExpression(String expression) throws InterruptedException, IOException, ExecutionException, URISyntaxException, TranslationNotFoundException {
+        String request = URL + yandexToken + "&lang=en-ru&text=" + expression.replaceAll(" ", "%20");
         LOGGER.info("request:{}", request);
         CustomHttpClient client = new CustomHttpClient();
         String translation = client.sendRequestGetResponse(request);
         LOGGER.info("translation:{}", translation);
-        return DictionaryJsonProcessor.parse(translation);
+        return DictionaryJsonProcessor.processJsonTranslation(translation);
     }
 }

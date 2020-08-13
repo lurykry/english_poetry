@@ -52,6 +52,9 @@ public class BotFacade {
             case "about me" -> state = ABOUT_ME;
             case "all authors" -> state  = SHOW_ALL_AUTHORS;
             case "poems by author" -> state = ASK_FOR_AUTHOR_NAME;
+
+            case "dictionary" -> state = ASK_FOR_WORD;
+
             default -> state = userDataCache.getUsersCurrentBotState(userId);
         }
         userDataCache.setUsersCurrentBotState(userId, state);
@@ -68,7 +71,8 @@ public class BotFacade {
         switch (callbackData) {
             case "/read_poem" -> state = SHOW_REQUIRED_POEM;
             case "/another_poem" -> state = ASK_FOR_POEM;
-            case "/another_author" -> state = ASK_FOR_AUTHOR_NAME;
+            case "/another_author", "/choose_author" -> state = ASK_FOR_AUTHOR_NAME;
+            case "/another_word" -> state = ASK_FOR_WORD;
             default -> state = userDataCache.getUsersCurrentBotState(userId);
         }
 

@@ -18,17 +18,8 @@ public class KeyboardsConfig {
     @Bean
     @Qualifier("ReadPoem")
     InlineKeyboardMarkup inlineKeyboardMarkupReadPoem(){
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton buttonFindPoem = new InlineKeyboardButton().setText("read poem");
-        buttonFindPoem.setCallbackData("/read_poem");
-        List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
-        keyboardButtonsRow.add(buttonFindPoem);
-        List<List<InlineKeyboardButton>> row = new ArrayList<>();
-        row.add(keyboardButtonsRow);
-
-        inlineKeyboardMarkup.setKeyboard(row);
-        return inlineKeyboardMarkup;
+        return buildInlineKeyboardMarkup("read poem", "/read_poem");
     }
 
     @Bean
@@ -52,6 +43,20 @@ public class KeyboardsConfig {
     }
 
     @Bean
+    @Qualifier("ChooseAuthor")
+    InlineKeyboardMarkup inlineKeyboardMarkupChooseAuthor(){
+
+        return buildInlineKeyboardMarkup("choose author", "/choose_author");
+    }
+
+    @Bean
+    @Qualifier("AnotherWord")
+    InlineKeyboardMarkup inlineKeyboardMarkupAnotherWord(){
+
+        return buildInlineKeyboardMarkup("another word", "/another_word");
+    }
+
+    @Bean
     ReplyKeyboardMarkup replyKeyboardMarkup(){
 
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
@@ -65,11 +70,29 @@ public class KeyboardsConfig {
         row1.add(new KeyboardButton("poems by author"));
 
         KeyboardRow row2 = new KeyboardRow();
-        row2.add(new KeyboardButton("about me"));
+        row2.add(new KeyboardButton("dictionary"));
+
+        KeyboardRow row3 = new KeyboardRow();
+        row3.add(new KeyboardButton("about me"));
 
         keyboard.add(row1);
         keyboard.add(row2);
+        keyboard.add(row3);
 
         return replyKeyboardMarkup.setKeyboard(keyboard);
+    }
+
+    private InlineKeyboardMarkup buildInlineKeyboardMarkup(String buttonName, String callbackData){
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton buttonAnotherWord = new InlineKeyboardButton().setText(buttonName);
+        buttonAnotherWord.setCallbackData(callbackData);
+        List<InlineKeyboardButton> keyboardButtonsRow = new ArrayList<>();
+        keyboardButtonsRow.add(buttonAnotherWord);
+        List<List<InlineKeyboardButton>> row = new ArrayList<>();
+        row.add(keyboardButtonsRow);
+
+        inlineKeyboardMarkup.setKeyboard(row);
+        return inlineKeyboardMarkup;
     }
 }

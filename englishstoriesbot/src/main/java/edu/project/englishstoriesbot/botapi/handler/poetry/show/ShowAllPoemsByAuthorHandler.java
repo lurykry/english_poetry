@@ -51,9 +51,8 @@ public class ShowAllPoemsByAuthorHandler implements MessageInputHandler {
     private SendMessage processMessage(Message message){
 
         int userId = message.getFrom().getId();
-        userDataCache.setUsersCurrentBotState(userId, BotStates.SHOW_REQUIRED_POEM);
 
-        String authorName = message.getText();
+        String authorName = message.getText().trim();
         long chatId = message.getChatId();
 
         UserData userData = userDataCache.getUserData(userId);
@@ -64,16 +63,18 @@ public class ShowAllPoemsByAuthorHandler implements MessageInputHandler {
         try {
             poems = poetryApiClient.getPoemsByAuthorName(authorName);
             SendMessage replyMessage = messageService.getReplyMessage(chatId, poems);
-            System.out.println(replyMessage.getText());
 
             if(replyMessage.getText().contains("status:404,reason:Not found")){
+                userDataCache.setUsersCurrentBotState(userId, BotStates.SHOW_ALL_POEMS_BY_AUTHOR);
                 return messageService.getReplyMessage(chatId, "error: unknown author");
             }else{
+                userDataCache.setUsersCurrentBotState(userId, BotStates.SHOW_REQUIRED_POEM);
                 replyMessage.setReplyMarkup(inlineKeyboardMarkup);
                 return replyMessage;
             }
 
         } catch (FailedToLoadTitlesException e) {
+            userDataCache.setUsersCurrentBotState(userId, BotStates.SHOW_ALL_POEMS_BY_AUTHOR);
             LOGGER.error("error occurred in processMessage() ", e);
             return messageService.getReplyMessage(chatId, error);
         }

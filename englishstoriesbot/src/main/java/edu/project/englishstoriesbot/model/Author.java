@@ -2,7 +2,7 @@ package edu.project.englishstoriesbot.model;
 
 import java.util.List;
 
-public class Author {
+public class Author implements Sendable{
 
     private String name;
     private List<String> allPoemTitles;

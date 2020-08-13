@@ -21,18 +21,18 @@ public class ExpressionDeserializer implements JsonDeserializer<Expression> {
             if(translations != null){
                 for (JsonElement translation : translations) {
                     expression.getTranslations().add(translation.getAsJsonObject().get("text").getAsString());
-                    JsonArray synonyms = translation.getAsJsonObject().getAsJsonArray("mean");
-                    if(synonyms != null){
-                        for (JsonElement synonym : synonyms) {
-                            expression.getSynonyms().add(synonym.getAsJsonObject().get("text").getAsString());
-                        }
-                    }
-                    JsonArray examples = translation.getAsJsonObject().getAsJsonArray("ex");
-                    if(examples != null){
-                        for (JsonElement example : examples) {
-                            expression.getExamples().add(example.getAsJsonObject().get("text").getAsString());
-                        }
-                    }
+//                    JsonArray synonyms = translation.getAsJsonObject().getAsJsonArray("mean");
+//                    if(synonyms != null){
+//                        for (JsonElement synonym : synonyms) {
+//                            expression.getSynonyms().add(synonym.getAsJsonObject().get("text").getAsString());
+//                        }
+//                    }
+//                    JsonArray examples = translation.getAsJsonObject().getAsJsonArray("ex");
+//                    if(examples != null){
+//                        for (JsonElement example : examples) {
+//                            expression.getExamples().add(example.getAsJsonObject().get("text").getAsString());
+//                        }
+//                    }
 
                 }
             }
