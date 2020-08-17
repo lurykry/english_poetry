@@ -12,20 +12,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.concurrent.ExecutionException;
 
 @SpringBootTest
 class EnglishStoriesBotApplicationTests {
-
-	@Autowired
-	private DictionaryApiClient apiClient;
-	@Autowired
-	private PoetryApiClient poetryApiClient;
 	@Test
-	void contextLoads() throws InterruptedException, IOException, ExecutionException, URISyntaxException, FailedToLoadAuthorsException {
-		poetryApiClient.getAllAuthors().forEach(System.out::println);
+	void contextLoads() {
+		
 	}
 
 }
